@@ -1,0 +1,78 @@
+# GoReleaser configuration
+version: 2
+
+builds:
+  - id: apkpure
+    binary: apkpure
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    main: ./main.go
+
+archives:
+  - id: apkpure
+    name_template: "apkpure_{{ .Os }}_{{ .Arch }}"
+    formats: ["tar.gz", "zip"]
+    format_overrides:
+      - goos: windows
+        formats: ["zip"]
+      - goos: darwin
+        formats: ["tar.gz"]
+    
+release:
+  # GitHub 릴리즈 설정
+  github:
+    owner: kyungw00k
+    name: apkpure-go
+  
+  footer: |
+    ## 📦 Downloads
+    
+    ### Pre-built Binaries
+    - **Linux (amd64)**: `apkpure-go_linux_amd64.tar.gz`
+    - **Linux (arm64)**: `apkpure-go_linux_arm64.tar.gz`
+    - **Windows (amd64)**: `apkpure-go_windows_amd64.zip`
+    - **Windows (arm64)**: `apkpure-go_windows_arm64.zip`
+    - **macOS (amd64)**: `apkpure-go_darwin_amd64.tar.gz`
+    - **macOS (arm64)**: `apkpure-go_darwin_arm64.tar.gz`
+    
+    ## 📋 Full Changelog
+    
+    See the [full changelog](https://github.com/kyungw00k/apkpure-go/compare/{{ .PreviousTag }}...{{ .Tag }}) for all changes.
+    
+    ---
+    
+    **Note**: This release is compatible with Go 1.25+
+
+changelog:
+  use: github
+  sort: asc
+  format: "{{.SHA}}: {{.Message}}"
+  abbrev: 7
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^ci:'
+      - '^build:'
+      - '^chore:'
+  groups:
+    - title: "🚀 Features"
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 0
+    - title: "🐛 Bug Fixes"
+      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      order: 1
+    - title: "🔧 Improvements"
+      regexp: '^.*?(refactor|perf|style)(\([[:word:]]+\))??!?:.+$'
+      order: 2
+    - title: "📚 Documentation"
+      regexp: '^.*?docs(\([[:word:]]+\))??!?:.+$'
+      order: 3
+    - title: "🔨 Build & CI"
+      regexp: '^.*?(build|ci|chore)(\([[:word:]]+\))??!?:.+$'
+      order: 4

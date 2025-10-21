@@ -1,0 +1,5 @@
+# Example CSV file for batch downloading APKs
+# Format: one app package ID per line
+org.fdroid.fdroid
+com.google.android.calculator
+org.mozilla.fennec_fdroid

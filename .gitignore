@@ -1,0 +1,4 @@
+test_downloads/
+bin/
+*.apk
+*.xapk
